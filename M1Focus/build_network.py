@@ -24,9 +24,15 @@ network_dir = 'network'
 t_sim = 31000.0  # ms
 dt = 0.1  # ms
 
+#old density : 600 * 600 * 500 / 10000 = 18,000
+#keep sameish density: 1000 * 1000 * 500 / X = 18000
+# 1000 * 1000 * 500 / 18000 = X
+# X = 27,777.777
+#Round X to 28,000
+
 # Network size and dimensions
-num_cells = 10000  # 10000
-column_width, column_height = 600., 500.
+num_cells = 28000  # 10000
+column_width, column_height = 1000., 500.
 x_start, x_end = - column_width / 2, column_width / 2
 y_start, y_end = - column_width / 2, column_width / 2
 z_start, z_end = - column_height / 2, column_height / 2
