@@ -13,7 +13,7 @@ from bmtk.utils.reports.spike_trains import PoissonSpikeGenerator
 INPUT_PATH = "./input"
 STIMULUS = ['baseline', 'short', 'long']
 
-N_ASSEMBLIES = 10  # number of assemblies
+N_ASSEMBLIES = 9  # number of assemblies
 NET_SEED = 4321  # random seed for network r.v.'s (e.g. assemblies, firing rate)
 PSG_SEED = 0  # poisson spike generator random seed for different trials
 rng = np.random.default_rng(NET_SEED)
