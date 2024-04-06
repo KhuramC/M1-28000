@@ -1,10 +1,11 @@
 import sys
-import os
+import os,pathlib,json
 import warnings
 import synapses
 from bmtk.simulator import bionet
 from bmtk.simulator.bionet.pyfunction_cache import add_weight_function
 from neuron import h
+pc = h.ParallelContext()
 
 CONFIG = 'config.json'
 USE_CORENEURON = False
@@ -18,12 +19,20 @@ def run(config_file=CONFIG, use_coreneuron=USE_CORENEURON):
     synapses.load(randseed=1111)
     add_weight_function(synapses.lognormal_weight, name='lognormal_weight')
 
-    if use_coreneuron:
-        import corebmtk
-        conf = corebmtk.Config.from_json(config_file, validate=True)
-    else:
-        conf = bionet.Config.from_json(config_file, validate=True)
-
+    with open(config_file, 'r') as json_file:
+        conf_dict = json.load(json_file)
+        if os.environ.get("OUTPUT_DIR"):
+            output_dir = os.path.abspath(os.environ.get('OUTPUT_DIR'))
+            pathlib.Path(output_dir).mkdir(parents=True, exist_ok=True)
+            print(f"Output directory updated to {output_dir}")
+            conf_dict['manifest']['$OUTPUT_DIR'] = output_dir
+        if use_coreneuron:
+            import corebmtk
+            conf = corebmtk.Config.from_json(conf_dict, validate=True)
+        else:
+            conf = bionet.Config.from_json(conf_dict, validate=True)
+    pc.barrier()
+    
     conf.build_env()
     graph = bionet.BioNetwork.from_config(conf)
 
@@ -42,21 +51,6 @@ def run(config_file=CONFIG, use_coreneuron=USE_CORENEURON):
         cells[cell].hobj.insert_mechs(cells[cell].gid)
     '''
 
-    # clear ecp temporary directory to avoid errors
-    pc = h.ParallelContext()
-    if pc.id() == 0:
-        try:
-            ecp_tmp = conf['reports']['ecp']['tmp_dir']
-        except:
-            pass
-        else:
-            if os.path.isdir(ecp_tmp):
-                for f in os.listdir(ecp_tmp):
-                    if f.endswith(".h5"):
-                        try:
-                            os.remove(os.path.join(ecp_tmp, f))
-                        except Exception as e:
-                            print(f'Failed to delete {f}. {e}')
     pc.barrier()
 
     sim.run()
