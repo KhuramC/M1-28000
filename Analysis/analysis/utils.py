@@ -7,9 +7,9 @@ import os
 import copy
 
 STIMULUS_CONFIG = {
-    'baseline': 'config_baseline.json',
-    'short': 'config_short.json',
-    'long': 'config_long.json',
+    'baseline': 'sonata_config.json',
+    'short': 'sonata_config.json',
+    'long': 'sonata_config.json',
     'const': 'config_const.json',
     'ramp': 'config.json',
     'join': 'config.json',
@@ -23,7 +23,7 @@ def stimulus_type_from_trial_name(trial_name):
 
 
 class ConfigHelper(object):
-    def __init__(self, config_file, root_dir_name='V1_L5_Model'):
+    def __init__(self, config_file, root_dir_name='M1-28000'):
         self.config_file = os.path.abspath(config_file)
         self.root_dir_name = root_dir_name
         with open(self.config_file, 'r') as f:
