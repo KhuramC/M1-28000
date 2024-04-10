@@ -1,5 +1,5 @@
 {
-  "n_assemblies": 10,
+  "n_assemblies": 9,
   "baseline": {
     "t_stop": 31.0,
     "PN_firing_rate": 20.0,
