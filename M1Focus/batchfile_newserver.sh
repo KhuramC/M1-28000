@@ -4,6 +4,8 @@
 #SBATCH -e  ./stdout/M1_sim.e%j.error
 #SBATCH -t 0-48:00:00  # days-hours:minutes
 
+
+
 #SBATCH -N 1
 #SBATCH -n 50 # used for MPI codes, otherwise leave at '1'
 ##SBATCH --ntasks-per-node=1  # don't trust SLURM to divide the cores evenly
@@ -12,9 +14,8 @@
 #SBATCH --mem-per-cpu=8G  # memory per core; default is 1GB/core
 
 ## send mail to this address, alert at start, end and abortion of execution
-##SBATCH --mail-type=ALL
-##SBATCH --mail-user=zc963@mail.missouri.edu
 
+#You may need to do chmod 705 "filename" if it says Permission denied.
 START=$(date)
 echo "Started running at $START."
 

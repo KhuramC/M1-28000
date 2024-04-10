@@ -2,7 +2,7 @@
 #SBATCH -J M1_build
 #SBATCH -o  ./stdout/M1_build.o%j.out
 #SBATCH -e  ./stdout/M1_build.e%j.error
-#SBATCH -t 0-48:00:00  # days-hours:minutes
+#SBATCH -t 0-96:00:00  # days-hours:minutes
 
 #SBATCH -N 1
 #SBATCH -n 1 # used for MPI codes, otherwise leave at '1'
@@ -13,7 +13,9 @@
 
 ## send mail to this address, alert at start, end and abortion of execution
 ##SBATCH --mail-type=ALL
-##SBATCH --mail-user=zc963@mail.missouri.edu
+##SBATCH --mail-user=kac2cf@mail.missouri.edu
+
+
 
 START=$(date)
 echo "Started running at $START."
